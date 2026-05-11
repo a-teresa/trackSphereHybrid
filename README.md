@@ -180,8 +180,8 @@ Each submodule will include:
 
 ## Interactive Architecture Demo
 
-**Live:** [https://YOUR_USERNAME.github.io/trackSphereHybrid/](https://YOUR_USERNAME.github.io/trackSphereHybrid/)
-*(replace `YOUR_USERNAME` with your GitHub username after deploying)*
+**Live:** [https://a-teresa.github.io/trackSphereHybrid/](https://a-teresa.github.io/trackSphereHybrid/)
+
 
 An interactive pitch deck is included in this repository as a visual way to navigate the architecture — business case, asset journey map, Beagle gateway spec, and technology decision matrix. It is **not** the system; it is a structured entry point into the concepts before the submodules exist.
 
