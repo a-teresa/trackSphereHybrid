@@ -6,6 +6,14 @@
 This is not a live commercial product. It was conceived as a structured exploration of hybrid asset-tracking architectures: to study how different wireless technologies actually behave across environments, understand their trade-offs at a physical and protocol level, and design a reference system where they coexist intelligently. Each technology involved will live in its own focused sub-repository (see [Planned Submodules](#planned-submodules)).
 
 ---
+## Interactive Architecture Demo
+
+**Live:** [https://a-teresa.github.io/trackSphereHybrid/](https://a-teresa.github.io/trackSphereHybrid/)
+
+
+An interactive pitch deck is included in this repository as a visual way to navigate the architecture — business case, asset journey map, Beagle gateway spec, and technology decision matrix. It is **not** the system; it is a structured entry point into the concepts before the submodules exist.
+
+---
 
 ## The Problem
 
@@ -177,13 +185,6 @@ Each submodule will include:
 - Integration notes for the Beagle gateway
 
 ---
-
-## Interactive Architecture Demo
-
-**Live:** [https://a-teresa.github.io/trackSphereHybrid/](https://a-teresa.github.io/trackSphereHybrid/)
-
-
-An interactive pitch deck is included in this repository as a visual way to navigate the architecture — business case, asset journey map, Beagle gateway spec, and technology decision matrix. It is **not** the system; it is a structured entry point into the concepts before the submodules exist.
 
 
 ## Licence
