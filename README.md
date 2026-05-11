@@ -185,46 +185,6 @@ Each submodule will include:
 
 An interactive pitch deck is included in this repository as a visual way to navigate the architecture — business case, asset journey map, Beagle gateway spec, and technology decision matrix. It is **not** the system; it is a structured entry point into the concepts before the submodules exist.
 
-### Deploy to GitHub Pages
-
-The project is already configured for one-command deployment.
-
-**1. Push to GitHub:**
-
-```bash
-git init
-git add .
-git commit -m "initial commit"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/trackSphereHybrid.git
-git push -u origin main
-```
-
-**2. Deploy the interactive demo:**
-
-```bash
-npm install
-npm run deploy
-```
-
-This builds the app and pushes it to the `gh-pages` branch automatically.
-
-**3. Enable Pages on GitHub:**
-
-Go to your repo → **Settings** → **Pages** → Source: `Deploy from a branch` → Branch: `gh-pages` / `/ (root)` → **Save**.
-
-The live demo will be available at `https://YOUR_USERNAME.github.io/trackSphereHybrid/` within a minute or two.
-
-**Subsequent updates:** `npm run deploy` — rebuilds and republishes in one step.
-
-### Run locally
-
-```bash
-npm install
-npm run dev
-```
-
----
 
 ## Licence
 
