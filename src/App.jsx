@@ -105,12 +105,12 @@ const zones = [
   { label: "In Transit / Road", techs: ["nbiot", "cellular"], x: 72, y: 22, w: 20, h: 40 },
 ];
 
-const slides = ["pitch", "architecture", "beagle", "portfolio"];
+const slides = ["pitch", "architecture", "zynq", "portfolio"];
 
 const slideLabels = {
   pitch: "01 · Business Case",
   architecture: "02 · System Architecture",
-  beagle: "03 · The Beagle Gateway",
+  zynq: "03 · The Zynq Gateway",
   portfolio: "04 · Technology Portfolio",
 };
 
@@ -153,7 +153,7 @@ function PitchSlide() {
             ⚠ THE PROBLEM
           </div>
           <p style={{ color: COLORS.muted, fontSize: 13, lineHeight: 1.7, margin: 0 }}>
-            Portuguese manufacturers track assets at the <span style={{ color: COLORS.text }}>facility gate — then lose visibility</span> the moment they enter a building or leave the yard. GPS doesn't work indoors. Wi-Fi only covers some buildings. No single system follows an asset from factory floor to truck to destination.
+            Assets <span style={{ color: COLORS.text }}>vanish from the data the moment they move.</span> GPS dies indoors, Wi-Fi covers only some buildings, and indoor RTLS stops at the door. No single system follows a tool or order from the assembly line, across the yard, onto a truck, to the customer — so teams fall back on manual counts and bleed hours chasing missing equipment.
           </p>
           <div style={{ marginTop: 16, display: "flex", flexWrap: "wrap", gap: 8 }}>
             {["Lost tools", "Missed SLAs", "Manual counts", "No audit trail"].map(p => (
@@ -170,10 +170,10 @@ function PitchSlide() {
             ◈ THE OPPORTUNITY
           </div>
           <p style={{ color: COLORS.muted, fontSize: 13, lineHeight: 1.7, margin: 0 }}>
-            Portugal's IoT market grows at <span style={{ color: COLORS.text }}>13.6% annually</span> with €200M in i4.0 government grants active now. No dominant local player offers a <span style={{ color: COLORS.text }}>true indoor + outdoor hybrid solution.</span> The gap is open.
+            Portugal's IoT market grows <span style={{ color: COLORS.text }}>13.6% a year</span> with €200M in Industry 4.0 grants live now — yet no local player offers true indoor + outdoor hybrid tracking, and none compute positioning <span style={{ color: COLORS.text }}>at the edge on FPGA.</span> The gap is both commercial and technical.
           </p>
           <div style={{ marginTop: 16, display: "flex", flexWrap: "wrap", gap: 8 }}>
-            {["€200M grants", "No local rival", "13.6% CAGR", "731K workers"].map(p => (
+            {["€200M grants", "No local rival", "13.6% CAGR", "Edge-processed"].map(p => (
               <span key={p} style={{ background: COLORS.green + "18", border: `1px solid ${COLORS.green}33`, color: COLORS.green, borderRadius: 4, padding: "3px 10px", fontSize: 11, fontFamily: "monospace" }}>{p}</span>
             ))}
           </div>
@@ -187,8 +187,8 @@ function PitchSlide() {
           {[
             { icon: "⬡", title: "Seamless Continuity", desc: "One platform. One tag. Full visibility from assembly floor to final destination.", color: COLORS.uwb },
             { icon: "◈", title: "Right Tech, Right Place", desc: "Each radio activates only where it adds value — no waste, no overengineering.", color: COLORS.ble },
-            { icon: "◎", title: "EU Funding Ready", desc: "Architecture qualifies for Portuguese i4.0 and PRR digitalization grants.", color: COLORS.green },
-            { icon: "▣", title: "Built for Portugal", desc: "Local support, Portuguese integrations, priced for SME reality.", color: COLORS.gold },
+            { icon: "▦", title: "FPGA-Accelerated Precision", desc: "Nanosecond timestamping and positioning computed on-device — no cloud round-trip.", color: COLORS.accent },
+            { icon: "◎", title: "EU-Funded & Local", desc: "Qualifies for Portuguese i4.0 / PRR grants. Local support, priced for SME reality.", color: COLORS.gold },
           ].map(v => (
             <div key={v.title} style={{ textAlign: "center", padding: "16px 8px" }}>
               <div style={{ fontSize: 28, marginBottom: 10, color: v.color }}>{v.icon}</div>
@@ -326,8 +326,8 @@ function ArchitectureSlide() {
           </div>
           {[
             { layer: "L4 · Application", desc: "ERP / WMS / MES integrations, dashboards, alerts, SLA reporting", color: COLORS.accent },
-            { layer: "L3 · Platform", desc: "Beagle management cloud — rules engine, tech-switching logic, historian", color: COLORS.gold },
-            { layer: "L2 · Edge", desc: "Beagle gateway devices — aggregation, local decision, data compression", color: COLORS.green },
+            { layer: "L3 · Platform", desc: "Cloud platform — rules engine, fleet policy, historian, dashboards", color: COLORS.gold },
+            { layer: "L2 · Edge", desc: "Zynq gateway — PL signal processing + PS management", color: COLORS.green },
             { layer: "L1 · Physical", desc: "Multi-radio tags — UWB + BLE + LoRa + NB-IoT in one device portfolio", color: COLORS.ble },
           ].map(l => (
             <div key={l.layer} style={{ display: "flex", gap: 12, marginBottom: 12, alignItems: "flex-start" }}>
@@ -342,11 +342,11 @@ function ArchitectureSlide() {
             ◈ DATA FLOWS
           </div>
           {[
-            { from: "UWB Anchors", to: "Beagle (local)", note: "Raw range/angle data → RTLS engine on-device" },
-            { from: "BLE Beacons", to: "Beagle (local)", note: "Zone presence → proximity engine" },
+            { from: "UWB Anchors", to: "Zynq PL", note: "Raw range/timestamp → RTLS engine in fabric" },
+            { from: "BLE Beacons", to: "Zynq PL", note: "Zone presence → proximity engine" },
             { from: "LoRa Nodes", to: "LoRaWAN Gateway", note: "Long-range heartbeat → cloud via TTN/private" },
             { from: "NB-IoT Tags", to: "Telco Network", note: "In-transit position → direct to platform" },
-            { from: "Beagle", to: "Cloud Platform", note: "Aggregated, filtered events → API / Webhooks" },
+            { from: "Zynq PS", to: "Cloud Platform", note: "Aggregated, filtered events → API / Webhooks" },
           ].map(f => (
             <div key={f.from} style={{ display: "flex", flexDirection: "column", marginBottom: 10 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -363,20 +363,20 @@ function ArchitectureSlide() {
   );
 }
 
-function BeagleSlide() {
+function ZynqSlide() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {/* Header */}
-      <div style={{ background: COLORS.card, border: `1px solid ${COLORS.green}44`, borderRadius: 12, padding: 24, borderLeft: `3px solid ${COLORS.green}` }}>
+      <div style={{ background: COLORS.card, border: `1px solid ${COLORS.accent}44`, borderRadius: 12, padding: 24, borderLeft: `3px solid ${COLORS.accent}` }}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 24 }}>
-          <div style={{ fontSize: 52, lineHeight: 1 }}>🐕</div>
+          <div style={{ fontSize: 52, lineHeight: 1, color: COLORS.accent, fontFamily: "monospace" }}>▦</div>
           <div>
-            <div style={{ color: COLORS.green, fontSize: 10, fontWeight: 700, letterSpacing: 3, marginBottom: 8, fontFamily: "monospace" }}>THE BEAGLE GATEWAY</div>
+            <div style={{ color: COLORS.accent, fontSize: 10, fontWeight: 700, letterSpacing: 3, marginBottom: 8, fontFamily: "monospace" }}>THE ARTIX GATEWAY</div>
             <div style={{ color: COLORS.text, fontSize: 18, fontWeight: 700, marginBottom: 10 }}>
-              The Edge Intelligence Core
+              The FPGA Edge Core
             </div>
             <p style={{ color: COLORS.muted, fontSize: 13, lineHeight: 1.7, margin: 0, maxWidth: 580 }}>
-              Named for its instinct to <span style={{ color: COLORS.text }}>sniff, track, and report</span> — the Beagle is a ruggedised edge gateway that simultaneously listens to all radio channels, decides which signals are relevant, and forwards only clean, enriched events upstream. It's the bridge between physical radio infrastructure and the cloud platform.
+              Built on a <span style={{ color: COLORS.text }}>Zynq-7000 SoC</span> — Artix-7 programmable logic fused to a dual-core ARM. The <span style={{ color: COLORS.text }}>fabric (PL)</span> handles timing-critical RF work — nanosecond UWB timestamping, positioning — that a CPU can't do deterministically; the <span style={{ color: COLORS.text }}>processor (PS)</span> runs Linux, the radio-switching policy, and the cloud uplink. One chip, both halves of the gateway.
             </p>
           </div>
         </div>
@@ -387,13 +387,13 @@ function BeagleSlide() {
         <div style={{ background: COLORS.card, border: `1px solid ${COLORS.border}`, borderRadius: 12, padding: 20 }}>
           <div style={{ color: COLORS.accent, fontSize: 10, fontWeight: 700, letterSpacing: 3, marginBottom: 16, fontFamily: "monospace" }}>⬡ HARDWARE PROFILE</div>
           {[
-            { label: "Form factor", value: "DIN-rail or wall-mount, IP54" },
-            { label: "Radios", value: "UWB + BLE 5.3 + LoRa 868MHz + NB-IoT" },
-            { label: "CPU", value: "ARM Cortex-A55 quad-core, edge AI ready" },
-            { label: "Connectivity", value: "Ethernet, Wi-Fi, 4G failover" },
-            { label: "Local storage", value: "16 GB flash — offline buffer" },
-            { label: "Power", value: "PoE+ / 24V DC / UPS input" },
-            { label: "Operating temp", value: "-20°C to +65°C industrial" },
+            { label: "SoC", value: "Zynq-7000 XC7Z020 (Arty Z7-20)" },
+            { label: "Fabric (PL)", value: "Artix-7: 53K LUT · 220 DSP · 4.9Mb BRAM" },
+            { label: "Processor (PS)", value: "2× Cortex-A9 @ 650 MHz, Linux" },
+            { label: "Radios", value: "UWB + BLE in PL · LoRa + NB-IoT on PS" },
+            { label: "Connectivity", value: "Gigabit Ethernet, 4G failover" },
+            { label: "Local storage", value: "SD + flash — offline buffer" },
+            { label: "Power", value: "12V DC / USB / UPS input" },
             { label: "Interfaces", value: "MQTT, REST, OPC-UA, Modbus" },
           ].map(r => (
             <div key={r.label} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: `1px solid ${COLORS.border}` }}>
@@ -434,9 +434,9 @@ function BeagleSlide() {
         <div style={{ color: COLORS.purple, fontSize: 10, fontWeight: 700, letterSpacing: 3, marginBottom: 16, fontFamily: "monospace" }}>◉ DEPLOYMENT TOPOLOGY</div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {[
-            { name: "Single-site", desc: "1–3 Beagles cover a full SME factory — indoor anchors, yard beacons, and uplink in one box.", techs: ["uwb", "ble"], color: COLORS.uwb },
-            { name: "Multi-site", desc: "Each facility has local Beagles. Central cloud aggregates all sites into one unified asset view.", techs: ["ble", "lora", "nbiot"], color: COLORS.lora },
-            { name: "Transit-only", desc: "Beagle-Lite as vehicle on-board unit. NB-IoT/4G reporting, syncs to facility network on arrival.", techs: ["nbiot", "cellular"], color: COLORS.cellular },
+            { name: "Single-site", desc: "1–3 Zynq gateways cover a full SME factory — indoor anchors, yard beacons, and uplink in one box.", techs: ["uwb", "ble"], color: COLORS.uwb },
+            { name: "Multi-site", desc: "Each facility has local Zynq gateways. Central cloud aggregates all sites into one unified asset view.", techs: ["ble", "lora", "nbiot"], color: COLORS.lora },
+            { name: "Transit-only", desc: "Zynq-Lite as vehicle on-board unit. NB-IoT/4G reporting, syncs to facility network on arrival.", techs: ["nbiot", "cellular"], color: COLORS.cellular },
           ].map(m => (
             <div key={m.name} style={{ background: COLORS.surface, borderRadius: 8, padding: 16, border: `1px solid ${COLORS.border}` }}>
               <div style={{ color: m.color, fontSize: 13, fontWeight: 700, marginBottom: 8 }}>{m.name}</div>
@@ -613,7 +613,7 @@ export default function App() {
       {/* Content */}
       {slide === "pitch" && <PitchSlide />}
       {slide === "architecture" && <ArchitectureSlide />}
-      {slide === "beagle" && <BeagleSlide />}
+      {slide === "zynq" && <ZynqSlide />}
       {slide === "portfolio" && <PortfolioSlide />}
     </div>
   );
