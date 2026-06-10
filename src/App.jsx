@@ -376,7 +376,7 @@ function ZynqSlide() {
               The FPGA Edge Core
             </div>
             <p style={{ color: COLORS.muted, fontSize: 13, lineHeight: 1.7, margin: 0, maxWidth: 580 }}>
-              Built on a <span style={{ color: COLORS.text }}>Zynq-7000 SoC</span> — Artix-7 programmable logic fused to a dual-core ARM. The <span style={{ color: COLORS.text }}>fabric (PL)</span> handles timing-critical RF work — nanosecond UWB timestamping, positioning — that a CPU can't do deterministically; the <span style={{ color: COLORS.text }}>processor (PS)</span> runs Linux, the radio-switching policy, and the cloud uplink. One chip, both halves of the gateway.
+              Built on a <span style={{ color: COLORS.text }}>Zynq-7000 SoC</span> — Artix-7 programmable logic fused to a dual-core ARM. The <span style={{ color: COLORS.text }}>fabric (PL)</span> handles timing-critical RF work — nanosecond UWB timestamping, positioning — that a CPU can't do deterministically; the <span style={{ color: COLORS.text }}>processor (PS)</span> runs Linux, aggregation, and the cloud uplink. The <span style={{ color: COLORS.text }}>tag</span> picks its own radio and transmits in — the gateway receives, processes, and forwards.
             </p>
           </div>
         </div>
@@ -406,13 +406,13 @@ function ZynqSlide() {
         {/* Intelligence */}
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div style={{ background: COLORS.card, border: `1px solid ${COLORS.border}`, borderRadius: 12, padding: 20, flex: 1 }}>
-            <div style={{ color: COLORS.gold, fontSize: 10, fontWeight: 700, letterSpacing: 3, marginBottom: 14, fontFamily: "monospace" }}>◈ SWITCHING INTELLIGENCE</div>
+            <div style={{ color: COLORS.gold, fontSize: 10, fontWeight: 700, letterSpacing: 3, marginBottom: 14, fontFamily: "monospace" }}>◈ TAG-SIDE RADIO SELECTION → GATEWAY</div>
             {[
-              { trigger: "Location zone entry", action: "Activate UWB anchors, sleep LoRa radio", color: COLORS.uwb },
-              { trigger: "Zone exit → yard detected", action: "Switch to BLE beacons + LoRa heartbeat", color: COLORS.lora },
-              { trigger: "Speed > 20 km/h", action: "Engage NB-IoT or 4G, disable short-range", color: COLORS.nbiot },
-              { trigger: "Battery < 20%", action: "Drop to LoRa / NB-IoT only, reduce poll rate", color: COLORS.green },
-              { trigger: "No network > 60s", action: "Local buffer to flash, sync on reconnect", color: COLORS.accent },
+              { trigger: "Indoor + UWB anchors in range", action: "Use UWB — cm precision → gateway", color: COLORS.uwb },
+              { trigger: "Indoor, no UWB reachable", action: "Fall back to BLE — zone level → gateway", color: COLORS.ble },
+              { trigger: "Yard / outdoor, no short-range", action: "Fall back to LoRa — long range → gateway", color: COLORS.lora },
+              { trigger: "No gateway reachable / in transit", action: "Fall back to NB-IoT — cellular → cloud", color: COLORS.nbiot },
+              { trigger: "Battery low / link lost", action: "Prefer low-power radio; buffer + retry", color: COLORS.green },
             ].map(r => (
               <div key={r.trigger} style={{ marginBottom: 10 }}>
                 <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
